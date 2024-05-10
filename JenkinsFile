@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the code using Maven...'
+                // sh 'mvn clean install'
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit and integration tests...'
+                // sh 'mvn test'
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                echo 'Analyzing the code using SonarQube...'
+                // sh 'mvn sonar:sonar'
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                echo 'Performing security scan...'
+                // sh 'snyk test'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying to staging server...'
+                // sh 'aws deploy ...'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on staging environment...'
+                // sh 'mvn verify'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying to production server...'
+                // sh 'aws deploy ...'
+            }
+        }
+    }
+
+    post {
+        always {
+            mail body: 'Pipeline completed. Check console output for details.',
+                to: 'wishwa999@gmail.com',
+                subject: 'Jenkins Pipeline Status'
+        }
+    }
+}
